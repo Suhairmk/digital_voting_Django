@@ -1,0 +1,138 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>insert candidate</title>
+  <link rel="stylesheet" href="{% static 'css/insertcandidate.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>{{val.fname}} {{val.mname}} {{val.lname}}</h2>
+    <form class="form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- Login Details Section -->
+     
+
+      <!-- Student Details Section -->
+      <fieldset>
+        <legend style="color: black;">Candidate Details</legend>
+
+        
+
+        <div class="name">
+          <div class="form-group">
+            <label for="name">FIRST NAME</label>
+            <input type="text" id="name" placeholder="Enter First Name" name="fname" value="{{val.fname}}" required>
+          </div>
+          <div class="form-group">
+            <label for="name">MIDDLE NAME</label>
+            <input type="text" id="name" placeholder="Enter Middle Name" name="mname" value="{{val.mname}}" >
+          </div>
+          <div class="form-group">
+            <label for="name">LAST NAME</label>
+            <input type="text" id="name" placeholder="Enter Last Name" name="lname" value="{{val.lname}}" required>
+          </div>
+        
+
+          <div class="enroll">
+            <div class="form-group">
+              <label for="enrollment">AADHAAR NUMBER</label>
+              <input type="text" id="enrollment" name="aadhaar" value="{{val.aadhaar}}" required>
+            </div>
+        
+
+          <div class="row">
+            <div class="form-group">
+              <label for="dob">DATE OF BIRTH</label>
+              <input type="date" id="dob" name="dob" value="{{val.dob}}" required>
+            </div>
+            <div class="form-group">
+            <label for="mobile">MOBILE</label>
+            <input type="tel" id="mobile" name="phone" value="{{val.phone}}" required>
+            </div>
+        
+
+          <div class="row">
+            <!-- <div class="form-group">
+              <label for="registration">*DATE OF REGISTRATION</label>
+              <input type="date" id="registration" name="registration" required>
+            </div> -->
+            <div class="form-group">
+            <label>GENDER</label>
+            <div class="radio-group">
+              <input type="radio" id="male" name="gender" value="male" {% if val.gender == 'male' %} selected {% endif %} checked>
+              <label for="male">Male</label>
+              <input type="radio" id="female" name="gender" value="female" {% if val.gender == 'female' %} selected {% endif %} checked>
+              <label for="female">Female</label>
+            </div>
+          </div>
+        
+
+          <div class="row">
+            <div class="form-group">
+            <label for="address">ADDRESS</label>
+            <input type="text" id="address" name="address" value="{{val.address}}" required>
+          </div>
+        
+
+          <div class="row">
+            <div class="form-group">
+              <label for="state">STATE</label>
+              <select id="state" name="state">
+              <option value="">Select State </option>
+              <option value="Kerala" {% if val.state == 'Kerala' %} selected {% endif %}>Kerala</option>
+              <option value="Tamil Nadu" {% if val.state == 'Tamil Nadu' %} selected {% endif %}>Tamil Nadu</option>
+              <option value="Karnadaka"{% if val.state == 'Karnadaka' %} selected {% endif %}>Karnadaka</option>
+              </select>
+          </div>
+            <div class="form-group">
+              <label for="city">CITY</label>
+              <select id="city" name="city">
+              <option value="">Select City</option>
+              <option value="kannur" {% if val.city == 'kannur' %} selected {% endif %}>Kannur</option>
+              <option value="kazaragod" {% if val.city == 'kazaragod' %} selected {% endif %}>Kazaragod</option>
+              <option value="kozhikode" {% if val.city == 'kazaragod' %} selected {% endif %}>Kozhikode</option>
+            </select>
+          </div>
+        
+
+          <div class="row">
+            <div class="form-group">
+            <label for="country">COUNTRY</label>
+            <select id="country" name="country">
+              <option value="India">India</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="zip">PIN CODE</label>
+            <input type="text" id="pin" name="pincode" value="{{val.pincode}}" required>
+          </div>
+        
+
+          <div class="row">
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="photo">PHOTO</label>
+                  <div class="photo-upload">
+                    <img src="{{val.photo.url}}" width="120px" height="120px">
+                    <!-- <div class="button" style="width: 70%;"> -->
+                      <!-- <img src="{{val.photo.url}}" width="120px" height="120px"> -->
+                      <!-- <input type="file" name="photo" value="{{val.photo}}"> -->
+                    </div>
+                    
+                    
+                  <!-- <p style="margin-left: -100px;margin-top: 8px;">Max resolution: 150 x 210px, formats: png, jpg, jpeg</p> -->
+                  <!-- <div class="submit">
+                    <button type="submit" style="margin-left: 60px;margin-top: 20px;margin-bottom: -30px;width: 80px;">Submit</button>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </fieldset>
+    </form>
+  </div> 
+</body>
+</html>

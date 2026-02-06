@@ -1,0 +1,63 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/offdash.css' %}">
+</head>
+<body>
+    <div class="menu">
+        <h2>MENU</h2>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <!-- <li><a href="#">General</a></li>
+            <li><a href="#">Accreditation</a></li> -->
+            <li><a href="#">Registered Parties</a></li>
+            <!-- <li><a href="#">Ward</a></li> -->
+            <li><a href="candidates">Candidates</a></li>
+            <!-- <li><a href="#">Registration</a></li> -->
+            <li><a href="standings">Election Results</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+            <h2>Election Data Centre</h2>
+        </div>
+
+        <div class="card-container">
+            <div class="card red">
+                <h3>Election Details</h3>
+                <a href="#" class="view-btn">View</a>
+            </div>
+
+            <div class="card red">
+                <h3>Qualified Candidates</h3>
+                <a href="qualifiedc" class="view-btn">View</a>
+            </div>
+
+            <!-- <div class="card red">
+                <h3>Cleared Candidates: 16</h3>
+                <a href="#" class="view-btn">View</a>
+            </div> -->
+
+            <div class="card blue">
+                <h3>Registered Voters: 21</h3>
+                <a href="regvoters" class="view-btn">View</a>
+            </div>
+
+            <!-- <div class="card blue">
+                <h3>Accredited Voter(s): 16</h3>
+                <a href="#" class="view-btn">View</a>
+            </div> -->
+
+            <div class="card blue">
+                <h3>Election Statistics</h3>
+                <a href="#" class="view-btn">View</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

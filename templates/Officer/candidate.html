@@ -1,0 +1,123 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>candidates</title>
+  <link rel="stylesheet" href="{% static 'css/managecd.css' %}">
+  <style>
+    /* .container {
+      margin-top: 20px;
+    }
+    .table-responsive {
+      margin-top: 20px;
+    }
+    .search-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    } */
+    .pagination {
+      justify-content: end;
+    }
+    /* .checkbox {
+      margin-left: 8px;
+    }  */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>CANDIDATES</h2>
+    <!-- <div class="search-bar">
+      <div>
+        <button class="btn btn-primary btn-sm">Export</button>
+        <span class="ms-3">Show 
+          <select class="form-select d-inline-block" style="width: 70px; display: inline-block;">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select> 
+        </span>
+      </div>
+     
+    </div> -->
+    
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+           
+            <!-- <th>Recipient</th> -->
+            <th>Name</th>
+            <th>Aadhaar Number</th>
+            <th>Date of Birth</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Pincode</th>
+            <th>Photo</th>
+            <!-- <th style="width: 100px;">Action</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Row -->
+           {% for i in val %}
+          <tr>
+            
+            <!-- <td>
+              <strong>Tommy Callahan</strong>
+              <br>
+              <small>Manager <br> Human Resources</small>
+            </td> -->
+            <td>{{i.fname}} {{i.mname}} {{i.lname}}</td>
+            
+            <td>{{i.aadhaar}}</td>
+            <td>{{i.dob}}</td>
+            <td>{{i.phone}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.address}}</td>
+            <td>{{i.state}}</td>
+            <td>{{i.city}}</td>
+            <td>{{i.country}}</td>
+            <td>{{i.pincode}}</td>
+            <td><img src='{{i.photo.url}}' width="80px" height="80px"></td>
+            
+            <!-- <td style="width: 100px;">
+                <a href="/editcandidate/{{i.id}}" >Edit</a> 
+                <a href="/deletecandidate/{{i.id}}"style="margin-left: 2px;">Delete</a>
+            </td> -->
+
+          </tr>
+          {% endfor %}
+      
+           
+            <!-- <td>
+              <strong>Ray Zalinsky</strong>
+              <br>
+              <small>Manager <br> Sales</small>
+            </td> -->
+           
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <!-- <nav>
+      <ul class="pagination">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav> -->
+  </div>
+
+ 
+</body>
+</html>

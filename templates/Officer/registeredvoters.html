@@ -1,0 +1,46 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/registeredvoters.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Voters</h2>
+        <div class="filters">
+            <!-- <input type="text" placeholder="Search voters" class="search-bar"> -->
+            <!-- <select>
+                <option>Select Job</option>
+                <option>Cashier</option>
+                <option>Accountant</option>
+            </select>
+            <select>
+                <option>Select Rating</option>
+                <option>5 Stars</option>
+                <option>4 Stars</option>
+            </select> -->
+            <!-- <button class="reset-btn">Reset</button> -->
+        </div>
+
+        <div class="card-grid">
+            <!-- Candidate Card -->
+             {% for i in val %}
+            <div class="card">
+                <!-- <div class="badge applied">Applied</div> -->
+                <img src='{{i.photo.url}}' alt="Profile" height="100px" width="100px" class="profile-img">
+                <h3>{{i.name}}</h3>
+                <!-- <p>User Analysis</p> -->
+                <!-- <button class="details-btn">View Details</button> -->
+                <a href="/viewvoters/{{i.id}}"class="view-btn">View Details</a>
+            </div>
+            {% endfor %}
+
+           
+
+            <!-- Repeat similar cards for other profiles -->
+        </div>
+    </div>
+</body>
+</html>

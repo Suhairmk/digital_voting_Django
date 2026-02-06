@@ -1,0 +1,137 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/edit.css' %}">
+</head>
+
+<h2>Edit Candidate</h2>
+
+<div class="container">
+    <form class="form-section" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-column left-column" >
+            <!-- <h2>Add Employer</h2> -->
+            <label>First Name</label required>
+            <input type="text" name="fname" value="{{val.fname}}">
+            
+            <label>Middle Name</label>
+            <input type="text" name="mname" value="{{val.mname}}">
+            
+            <label>Last Name</label required>
+            <input type="text" name="lname" value="{{val.lname}}">
+            
+            <label>Dob</label>
+            <input type="text" name="dob" value="{{val.dob}}">
+            
+            <label>Gender</label>
+            <select id="gender" name="gender" >
+            <option value="">Select Gender</option>
+            <option value="male" {% if val.gender == 'male' %} selected {% endif %}>Male</option>
+            <option value="female" {% if val.gender == 'female' %} selected {% endif %}>Female</option>
+            </select>
+            
+            <label>Permanent Address</label>
+            <input type="text" name="address" value="{{val.address}}">
+            
+            <label>Party</label>
+            <input type="text" placeholder="Enter Organisation name" name="party" value="{{val.party}}">
+            
+            <label>Ward</label>
+            <select name="ward" id="">
+                {% for i in wards %}
+                <option value="{{i.id}}" {% if val.ward == i.id %} selected {% endif %}>{{i.name}}</option>
+                {% endfor %}
+            </select>
+            
+            <label>Party logo</label>
+            <img src="{{val.logo.url}}" width="120px" height="120px" style="border-radius: 8px;"></img>
+            <input type="file" name="logo" value="{{val.logo}}">
+            
+            <label>City</label>
+            <select id="city" name="city">
+                <option value="">Select city</option>
+                <option value="kannur" {% if val.city == 'kannur' %} selected {% endif %}>Kannur</option>
+                <option value="kazaragod" {% if val.city == 'kazaragod' %} selected {% endif %}>Kazaragod</option>
+                <option value="kozhikode" {% if val.city == 'kozhikode' %} selected {% endif %}>Kozhikode</option>
+                <option value="vayanad" {% if val.city == 'vayanad' %} selected {% endif %}>Vayanad</option>
+            </select>
+            
+            <label>State</label>
+            <select id="state" name="state">
+                <option>Select State</option>
+                <option value="kerala" {% if val.state == 'Kerala' %} selected {% endif %}>Kerala</option>
+                <option value="tamil nadu">Tamil Nadu</option>
+                <option value="karnadaka">Karnadaka</option>
+            </select>
+            
+            <label>Country</label>
+            <select id="country" name="country">
+                <option value="india">India</option>
+                </select>
+            
+            <label>Pin Code</label>
+            <input type="text" name="pincode" value="{{val.pincode}}">
+        </div>
+
+        <div class="form-column right-column">
+                <label>Photo</label>
+                <img src="{{val.photo.url}}" width="120px" height="120px" style="border-radius: 8px;"></img>
+                <input type="file" name="photo" value="{{val.photo}}"> 
+
+                <label>Aadhaar Number</label required>
+                <input type="text" name="aadhaar" placeholder="Enter Aadhaar Number" value="{{val.aadhaar}}">
+                    
+                <label>Proof(Aadhaar)</label>
+                <img src="{{val.proof.url}}" width="120px" height="120px" style="border-radius: 8px;"></img>
+                <input type="file" name="proof" value="{{val.proof}}">
+            
+                <label>Voter ID</label>
+                <img src="{{val.voterid.url}}" width="120px" height="120px" style="border-radius: 8px;"></img>
+                <input type="file" name="voterid" value="{{val.voterid}}">
+
+            
+                <label>Phone Number</label>
+                <input type="text" name="phone" placeholder="Enter Phone Number" value="{{val.phone}}">
+            
+                <label>Mail</label>
+                <input type="mail" name="mail" placeholder="Enter Mail" value="{{val.mail}}">
+            
+                <!-- <label></label> -->
+                <!-- <input type="text" placeholder="Enter department name">
+                
+                <label>Designation</label>
+                <input type="text" placeholder="Enter designation name">
+                
+                <label>Address 1</label>
+                <input type="text" placeholder="Enter address 1">
+                
+                <label>Address 2</label>
+                <input type="text" placeholder="Enter address 2">
+                
+                <label>Country</label>
+                <select>
+                    <option>Select Country</option>
+                </select>
+                
+                <label>State</label>
+                <select>
+                    <option>Select State</option>
+                </select>
+                
+                <label>City</label>
+                <input type="text" placeholder="Enter city">
+                
+                <label>Pin Code</label>
+                <input type="text" placeholder="Enter Pin Code"> -->
+                <button class="submit" type="submit">Submit</button>
+                <button class="reset">Reset</button>
+        </div>
+    </form>
+</div> 
+</section>
+</section>

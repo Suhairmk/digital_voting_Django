@@ -1,0 +1,59 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>voter details</title>
+    <link rel="stylesheet" href="{% static 'css/viewvoters.css' %}">
+</head>
+<body>
+    <div class="summary-container">
+        <div class="profile-picture">
+            <img src='{{val.Photo.url}}' alt="Profile" height="100px" width="100px" class="profile-img">
+        </div>
+        <div class="user-details">
+            <h1>voter details</h1>
+            <div class="info-row">
+                <span>Name:</span>
+                <span>{{val.Name}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email:</span>
+                <span value="{{val.Mailid}}"></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Gender:</span>
+                <span class="value">{{val.Gender}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Phone:</span>
+                <span class="value">{{valMobno}}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Aadhar:</span>
+                <span class="value revoked">{{val.Aadhaar}}</span>
+            </div>
+            <div class="info-row down">
+                <span class="label">Dob:</span>
+                <span class="value">{{val.Dob}}</span>
+            </div>
+            <!-- <div class="info-row">
+                <span class="label">Role Permissions:</span>
+                <span class="value">All</span>
+            </div> -->
+
+            <div class="card">
+                <a href=""><input type="button" name="accept" value="Accept"></a>
+            <!-- </div>
+            <div class="card"> -->
+                <input type="button" name="reject" value="Reject">
+            </div>
+                <!-- <a href="#" class="view-btn">Accept</a>
+                <a href="#" class="view-btn" style="margin-left: 100px;">Reject</a> -->
+                <!-- <span class="label">User Access:</span>
+                <span class="value">Configuration, Users, History, Reports, Helpdesk, Supplier Portal Administrator, Employee Portal Administrator, Workflow Administrator</span> -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

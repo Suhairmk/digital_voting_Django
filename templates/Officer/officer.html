@@ -1,0 +1,356 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officer Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/officer.css' %}">
+</head>
+
+<body onload="showSection('dashboard')">
+    <div class="topbar">
+        <div class="admin-title">Officer<i class="fa-solid fa-user-tie" style="padding-left: 8px;"></i></div>
+        <div class="logout">
+            <a href="/">Logout</a>
+
+        </div>
+    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li class="active" onclick="showSection('dashboard')"></i>Dashboard</li>
+                <!-- <li onclick="showSection('insert-candidate')">Candidate Verification</li> -->
+                <li onclick="showSection('manage-candidates')">Voter Verification</li>
+                <li onclick="showSection('insert-cd')">Insert Candidate</li>
+                <li onclick="showSection('case-files')">Manage Candidate</li>
+                <li onclick="showSection('show-groups')">Generate Groups</li>
+                <li onclick="loadGroups()">View Groups</li>
+                <li><a href="/Result/" style="text-decoration: none;">Results</a></li>
+            </ul>
+        </aside>
+        <main class="content">
+            <section id="dashboard">
+                <h2>Dashboard</h2>
+                <p>Welcome to the Officer dashboard.</p>
+            </section>
+            <section id="manage-candidates" style="display: none;">
+                <!-- <header> -->
+                <h2>Voters</h2>
+                <!-- <button class="add-user">Add User</button> -->
+                <!-- </header> -->
+                <div class="voter-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>gender</th>
+                                <th>DOB</th>
+                                <th>Age</th>
+                                <th>Address</th>
+                                <th>Mail</th>
+                                <th>Phone number</th>
+                                <th>Aadhaar</th>
+                                <th>Voter ID</th>
+                                <th>Photo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in v2 %}
+                            <tr>
+                                <td>{{i.name}}</td>
+                                <td>{{i.gender}}</td>
+                                <td>{{i.dob}}</td>
+                                <td>{{i.age}}</td>
+                                <td>{{i.address}}</td>
+                                <td>{{i.mailid}}</td>
+                                <td>{{i.mobno}}</td>
+                                <td>{{i.aadhaar}}</td>
+                                <td>{{i.voterid}}</td>
+                                <td><a href="{{i.photo.url}}" target="_blank">View</a></td>
+                                <td style="text-align: right">
+                                    {% if i.LOGIN_ID.status != 'verified' %}
+                                    <a href="/Verifyuser/{{i.id}}"><button class="verify">Verify</button></a>
+                                    {% endif %}
+                                </td>
+                                {% endfor %}
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="insert-candidate" style="display: none;">
+                <h2>Candidates</h2>
+
+                <div class="voter-table">
+                    <table>
+                        <thead>
+                            
+                            <tr>
+                                <th>Name</th>
+                                <th>gender</th>
+                                <th>Age</th>
+                                <th>Phone number</th>
+                                <th>Aadhaar</th>
+                                <th>Photo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in v1 %}
+                            <tr>
+                                <td>{{i.fname}}</td>
+                                <td>{{i.gender}}</td>
+                                <td>{{i.dob}}</td>
+                                <td>{{i.aadhaar}}</td>
+                                <!-- <td>{{i.voterid.url}}</td> -->
+                                <td>{{i.photo}}</td>
+                                <td style="text-align: right">
+                                    <button class="verify">Verify</button>
+                                </td>
+                            </tr>
+{% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="insert-cd">
+
+                <h2>Insert Candidate</h2>
+
+                <div class="container">
+                    <form class="form-section" action="/insertcandidate" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-column left-column">
+                            <!-- <h2>Add Employer</h2> -->
+                            <label>First Name</label required>
+                            <input type="text" name="fname">
+
+                            <label>Middle Name</label>
+                            <input type="text" name="mname">
+
+                            <label>Last Name</label required>
+                            <input type="text" name="lname">
+
+                            <label>Dob</label>
+                            <input type="date" name="dob">
+
+                            <label>Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+
+                            <label>Permanent Address</label>
+                            <input type="text" name="address">
+
+                            <label>Party</label>
+                            <input type="text" placeholder="Enter Organisation name" name="party">
+
+                            <label>Ward</label>
+                            <select name="ward" id="">
+                                {% for i in wards %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                            
+                            <label>Party logo</label>
+                            <input type="file" name="logo">
+
+                            <label>City</label>
+                            <select id="city" name="city">
+                                <option value="">Select city</option>
+                                <option value="kannur">Kannur</option>
+                                <option value="kazaragod">Kazaragod</option>
+                                <option value="kozhikode">Kozhikode</option>
+                                <option value="vayanad">Vayanad</option>
+                            </select>
+
+                            <label>State</label>
+                            <select id="state" name="state">
+                                <option>Select State</option>
+                                <option value="kerala">Kerala</option>
+                                <option value="tamil nadu">Tamil Nadu</option>
+                                <option value="karnadaka">Karnadaka</option>
+                            </select>
+
+                            <label>Country</label>
+                            <select id="country" name="country">
+                                <option value="india">India</option>
+                            </select>
+
+                            <label>Pin Code</label>
+                            <input type="text" name="pincode">
+                        </div>
+
+                        <div class="form-column right-column">
+                            <label>Photo</label>
+                            <input type="file" name="photo">
+
+                            <label>Aadhaar Number</label required>
+                            <input type="text" name="aadhaar" placeholder="Enter Aadhaar Number">
+
+                            <label>Proof(Aadhaar)</label>
+                            <input type="file" name="proof">
+
+                            <label>Voter ID</label>
+                            <input type="file" name="voterid">
+
+                            <label>Phone Number</label>
+                            <input type="text" name="phone" placeholder="Enter Phone Number">
+
+                            <label>Mail</label>
+                            <input type="mail" name="mail" placeholder="Enter Mail">
+
+                            <!-- <label></label> -->
+                            <!-- <input type="text" placeholder="Enter department name">
+                                
+                                <label>Designation</label>
+                                <input type="text" placeholder="Enter designation name">
+                                
+                                <label>Address 1</label>
+                                <input type="text" placeholder="Enter address 1">
+                                
+                                <label>Address 2</label>
+                                <input type="text" placeholder="Enter address 2">
+                                
+                                <label>Country</label>
+                                <select>
+                                    <option>Select Country</option>
+                                </select>
+                                
+                                <label>State</label>
+                                <select>
+                                    <option>Select State</option>
+                                </select>
+                                
+                                <label>City</label>
+                                <input type="text" placeholder="Enter city">
+                                
+                                <label>Pin Code</label>
+                                <input type="text" placeholder="Enter Pin Code"> -->
+                            <button class="submit" type="submit">Submit</button>
+                            <button class="reset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+
+            <section id="case-files">
+
+                <header>
+                    <h2>Manage Candidates</h2>
+                    <!-- <button class="add-user">Add User</button> -->
+                </header>
+                <div class="user-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Dob</th>
+                                <th>Email</th>
+                                <th>phone</th>
+                                <th>aadhaar</th>
+                                <th>voterid</th>
+                                <th>party</th>
+                                <th>ward</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in v1 %}
+                            <tr>
+                                <td>{{i.fname}} {{i.mname}} {{i.lname}}</td>
+                                <td>{{i.dob}}</td>
+                                <td>{{i.mail}}</td>
+                                <td>{{i.phone}}</td>
+                                <td>{{i.aadhaar}}</td>
+                                <td><img src="{{i.voterid.url}}" height="50px" width="50px" alt="loading"></td>
+                                <td>{{i.party}}</td>
+                                <td>{{i.ward.name}}</td>
+
+                                <td style="text-align: right">
+                                    <a href="/editcandidate/{{i.id}}">edit</a>
+                                    <a href="/deletecandidate/{{i.id}}" style="margin-left: 2px;">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+
+            <section id="show-groups" style="display: none;">
+
+                <header>
+                    <h2>Generate codes</h2>
+                    <!-- <button class="add-user">Add User</button> -->
+                </header>
+                <div class="user-table">
+                    <a href="/create-groups/"><button>Generate groups</button></a>
+
+                </div>
+            </section>
+            <section id="view-groups" style="display: none;">
+
+                <header>
+                    <h2>Generate codes</h2>
+                    <!-- <button class="add-user">Add User</button> -->
+                </header>
+                <div class="user-table">
+                    <a href=""><button>Sendcode</button></a>
+
+                </div>
+            </section>
+
+
+
+        </main>
+    </div>
+    <script>
+        function generateCodes(groupId) {
+            fetch(`generate-codes/${groupId}/`)
+                .then(response => response.json())
+                .then(data => alert(data.status))
+                .catch(error => console.error("Error:", error));
+        }
+        function loadGroups() {
+    fetch("/groups/") // Ensure this matches your Django URL path
+        .then(response => response.text()) // Get HTML response
+        .then(html => {
+            document.getElementById("show-groups").innerHTML = html;
+            document.getElementById("show-groups").style.display = "block";
+        })
+        .catch(error => console.error("Error loading groups:", error));
+}
+        function showSection(sectionId) {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('manage-candidates').style.display = 'none';
+            // document.getElementById('insert-candidate').style.display = 'none';
+            document.getElementById('insert-cd').style.display = 'none';
+            document.getElementById('case-files').style.display = 'none';
+            document.getElementById('show-groups').style.display = 'none';
+            // document.getElementById('view-groups').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+            
+            let items = document.querySelectorAll(".sidebar ul li");
+            items.forEach(item => item.classList.remove("active"));
+
+            document.querySelector(".sidebar ul li[onclick='showSection(\'" + sectionId + "\')']").classList.add("active");
+        }
+    </script>
+</body>
+
+</html>

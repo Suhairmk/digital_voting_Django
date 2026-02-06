@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Selection</title>
+
+</head>
+<body>
+    <h1>Select a Group</h1>
+    {% for group in groups %}
+        <button onclick="generateCodes('{{ group.id }}')">Generate Code for Group {{ forloop.counter }}</button>
+    {% empty %}
+        <p>No groups available.</p>
+    {% endfor %}
+</body>
+</html>

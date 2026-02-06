@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/Admin_dash.css' %}">
+</head>
+<body onload="showSection('dashboard')">
+    <div class="topbar">
+        <div class="admin-title">Admin <i class="fa-solid fa-user-tie" style="padding-left: 8px;"></i></div>
+        <div class="logout">
+            <a href="/"><button class="logout-button">Logout</button></a>
+        </div>
+    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li onclick="showSection('dashboard')" class="active">Dashboard</li>
+                <li onclick="showSection('insert-candidate')">Verify Candidate</li>
+                <li onclick="showSection('manage-candidates')">Case Files</li>
+                <li onclick="showSection('add-case')">Add Case</li>
+                <li onclick="showSection('feedback')">Feedback</li>
+                <li onclick="showSection('complaints')">Complaints</li>
+                <li onclick="showSection('manage-wards')">Manage Wards</li>
+                <li onclick="showSection('view-wards')">Wards</li>
+                <li onclick="showSection('ElectionTime')">Election Declaration</li>
+                <li onclick="showSection('Publish')">Result Publication</li>
+
+            </ul>
+        </aside>
+        <main class="content">
+            <section id="dashboard">
+                <h2>Dashboard</h2>
+                <p>Welcome to the dashboard.</p>
+            </section>
+
+            <section id="insert-candidate" style="display: none;">
+                <h2>Candidates</h2>
+                <div class="voter-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>DOB</th>
+                                <th>Gender</th>
+                                <th>Phone Number</th>
+                                <th>Aadhaar</th>
+                                <th>Photo</th>
+                                <th>Case</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in v %}
+                            <tr>
+                                <td>{{ i.fname }} {{ i.mname }} {{ i.lname }}</td>
+                                <td>{{ i.dob }}</td>
+                                <td>{{ i.gender }}</td>
+                                <td>{{ i.phone }}</td>
+                                <td>{{ i.aadhaar }}</td>
+
+                                <td><img src="{{ i.photo.url }}" width="80px" height="80px"></td>
+                                <td>
+                                    {% if i.has_case %}
+                                        Pending Case
+                                    {% else %}
+                                        No Cases
+                                    {% endif %}
+                                </td>
+                                <td style="text-align: right">
+                                    {% if i.status == 'rejected' %}
+                                    <a href="/Verifycandidate/{{ i.id }}"><button class="verify">Verify</button></a>
+                                    {% elif i.status == 'verified' %}
+                                    <a href="/Rejectcandidate/{{ i.id }}"><button class="verify">Reject</button></a>
+                                    {% else %}
+                                    <a href="/Verifycandidate/{{ i.id }}"><button class="verify">Verify</button></a>
+                                    <a href="/Rejectcandidate/{{ i.id }}"><button class="verify">Reject</button></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="feedback" style="display: none;">
+                <h2>Feedback</h2>
+                <div class="container">
+                    {% for i in v1 %}
+                    <div class="card">
+                        <h3>{{ i.user.name }}</h3>
+                        <!-- <p>{{ i.date }}</p> -->
+                        <hr>
+                        <p>{{ i.feedback }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section id="complaints" style="display: none;">
+                <h2>Complaints</h2>
+                <div class="container">
+                    {% for i in v2 %}
+                    <div class="card">
+                        <h3>{{ i.user.name }}</h3>
+                        <p>{{ i.date }}</p>
+                        <hr>
+                        <p>{{ i.complaint }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section id="manage-candidates" style="display: none;">
+                <h2>Case Files</h2>
+                <table class="case-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Case Id</th>
+                            <th>Crime</th>
+                            <th>Aadhaar</th>
+                            <th>Phone</th>
+                            <th>Photo</th>    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in v4 %}
+                        <tr>
+                            <td>{{i.name}}</td>
+                            <td>{{i.caseid}}</td>
+                            <td>{{i.crime}}</td>
+                            <td>{{i.adhaar_number}}</td>
+                            <td>{{i.phone}}</td>
+                            <td><a href="{{i.photo.url}}" target="_blank"><img src="{{i.photo.url}}" height="50px" width="50px"></a></td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="add-case" style="display: none;">
+                <h2>Add Case Files</h2>
+                <form action="/Addcasefiles" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label>Name</label></td>
+                            <td><input type="text" name="name" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Case Id</label></td>
+                            <td><input type="text" name="caseid"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Crime</label></td>
+                            <td><input type="text" name="crime" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Aadhar Number</label></td>
+                            <td><input type="text" name="adhaar_number"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Photo</label></td>
+                            <td><input type="file" name="photo" required></td>
+                        
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Phone Number</label></td>
+                            <td><input type="text" name="phone" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <button class="submit" type="submit">Submit</button>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+            
+
+            <section id="manage-wards" style="display: none;">
+                <h2>Wards</h2>
+                <table class="case-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wards %}
+                        <tr>
+                            <td>{{i.name}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="view-wards" style="display: none;">
+                <h2>Add wards</h2>
+                <form action="/Addwards" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label>Name</label></td>
+                            <td><input type="text" name="name" required></td>
+                        </tr>
+
+
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <button class="submit" type="submit">Submit</button>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+
+            <section id="ElectionTime" style="display: none;">
+                <h2>Election Date submission</h2>
+                <form action="/ElectionDeclare" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+
+                            <td><label>Date</label></td>
+                            <td><input type="date" name="electiondate" value="{{ votetime.electiondate|date:'Y-m-d' }}" required></td>
+                        </tr>
+                        <tr>
+
+                            <td><label>Start Time</label></td>
+                            <td><input type="time" name="start_time"value="{{ votetime.start_time|time:'H:i' }}" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>End Time</label></td>
+                            <td><input type="time" name="end_time" value="{{ votetime.end_time|time:'H:i' }}" required></td>
+
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <button class="submit" type="submit">Submit</button>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+
+            <section id="Publish" style="display: none;">
+                <h2>Result Publish</h2>
+                <form action="/publishStatus" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><label>Status</label></td>
+                            <td>
+                                <input type="radio" id="publish" name="status" value="true" {% if result.status == "true" %}checked{% endif %}>
+                                <label for="publish">Publish</label><br>
+                            
+                                <input type="radio" id="unpublish" name="status" value="false" {% if result.status == "false" %}checked{% endif %}>
+                                <label for="unpublish">Unpublish</label><br>
+                            
+                            </td>
+                        </tr>
+                       
+
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <button class="submit" type="submit">Publish</button>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+            
+        </main>
+    </div>
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('main section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+            document.querySelectorAll(".sidebar ul li").forEach(item => item.classList.remove("active"));
+            document.querySelector(`.sidebar ul li[onclick="showSection('${sectionId}')"]`).classList.add("active");
+        }
+    </script>
+</body>
+</html>
