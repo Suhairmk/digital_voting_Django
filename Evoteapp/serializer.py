@@ -1,4 +1,4 @@
-from Evoteapp.models import Candidate_model, Candidatecode_model, Complaint_model, Feedback_model, Login_model, Officer_model, User_model, UserCandidateCode, Vote_model, Ward
+from Evoteapp.models import *
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
@@ -47,14 +47,14 @@ class  Officerserializer(ModelSerializer):
         model = Officer_model
         fields = ['LOGIN_ID','name','dob','gender','mailid','phone','photo']
 
-class CandidateCodeSerializer(ModelSerializer):
-    class Meta:
-        model = Candidatecode_model
-        fields = ['code','candidate','voter']
+# class CandidateCodeSerializer(ModelSerializer):
+#     class Meta:
+#         model = Candidatecode_model
+#         fields = ['code','candidate','voter']
 
 
-class UserCandidateCodeserializer(ModelSerializer):
-    class Meta:
-        model = UserCandidateCode
-        fields = '__all__'
+# class UserCandidateCodeserializer(ModelSerializer):
+#     class Meta:
+#         model = UserCandidateCode
+#         fields = '__all__'
         

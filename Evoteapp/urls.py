@@ -46,14 +46,14 @@ urlpatterns = [
     path('officers/<int:pk>/', OfficerDetailAPIView.as_view(), name='officer-detail-update'),
     path('userregistration', UserAPIView.as_view(), name='user-list-create'),
     path('userregistration/<int:pk>/', UserDetailAPIView.as_view(), name='user-detail'),
-    path('candidate-codes/', CandidateCodeAPIView.as_view(), name='candidate_codes'),
-    path('candidate-codes/<int:pk>/', CandidateCodeDetailAPIView.as_view(), name='candidate_code_detail'),
+    # path('candidate-codes/', CandidateCodeAPIView.as_view(), name='candidate_codes'),
+    # path('candidate-codes/<int:pk>/', CandidateCodeDetailAPIView.as_view(), name='candidate_code_detail'),
     path('logincheck/', LoginPage.as_view(), name='logincheck'),  # ✅ Correct
-    path('create-groups/', CreateUserGroupsView.as_view(), name='create_groups'),
-    path('process-group/', ProcessGroupView.as_view(), name='process_group'),
-    path("groups/", group_list_view, name="group-list"),
-    path('generate-codes/<int:group_id>/', GenerateAndSendCodesView.as_view(), name='generate_codes'),
-    path('getcodes/<int:id>',getcodes.as_view(),name='getcodes'),
+    # path('create-groups/', CreateUserGroupsView.as_view(), name='create_groups'),
+    # path('process-group/', ProcessGroupView.as_view(), name='process_group'),
+    # path("groups/", group_list_view, name="group-list"),
+    # path('generate-codes/<int:group_id>/', GenerateAndSendCodesView.as_view(), name='generate_codes'),
+    # path('getcodes/<int:id>',getcodes.as_view(),name='getcodes'),
     path('WardAPIView',WardAPIView.as_view(),name='WardAPIView'),
     
 
