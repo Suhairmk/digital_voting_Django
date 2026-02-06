@@ -302,8 +302,14 @@ class LoginPage(APIView):
 class CandidateAPIView(APIView):
     def get(self, request, pk=None):
         if pk:
-            candidate = get_object_or_404(Candidate_model, pk=pk)
-            serializer = Candidateserializer(candidate)
+            print(pk)
+            userid=User_model.objects.get(LOGIN_ID__id=pk)
+            ward=userid.ward
+            print(ward)
+            candidate = Candidate_model.objects.filter(ward=ward).all()
+            print(candidate)
+
+            serializer = Candidateserializer(candidate,many=True)
         else:
             candidates = Candidate_model.objects.all()
             serializer = Candidateserializer(candidates, many=True)
@@ -737,7 +743,7 @@ class CastVoteAPIView(APIView):
         print(request.data)
         user_id = request.data.get("user_id")
         # unique_code = request.data.get("unique_code")
-        candidate_id = request.data.get("unique_code")
+        candidate_id = request.data.get("candidate_id")
  
 
         if not user_id or not candidate_id:
@@ -747,7 +753,7 @@ class CastVoteAPIView(APIView):
             current_datetime = localtime(now()) 
 
             if not voting_time:
-                return Response({"error": "Voting schedule not set."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": "Voting schedule not set.",'success':False}, status=status.HTTP_201_CREATED)
 
             election_date = voting_time.electiondate
             start_time = voting_time.start_time
@@ -755,18 +761,18 @@ class CastVoteAPIView(APIView):
 
             if current_datetime.date() != election_date:
                 print("ff",current_datetime.date(), election_date)
-                return Response({"message": "Election not started or already ended"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Election not started or already ended",'success':False}, status=status.HTTP_201_CREATED)
 
             if current_datetime.time() < start_time:
                 print("gg",current_datetime.time(), start_time)
-                return Response({"message": "Election has not started yet"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Election has not started yet",'success':False}, status=status.HTTP_201_CREATED)
 
             if current_datetime.time() > end_time:
                 print("hh",current_datetime.time(), end_time)
-                return Response({"message": "Election has ended"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Election has ended",'success':False}, status=status.HTTP_201_CREATED)
     
         except Votingtime.DoesNotExist:
-            return Response({"error": "Election timing not found"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"message": "Election timing not found",'success':False}, status=status.HTTP_201_CREATED)
 
         # # Validate unique code
         # try:
@@ -779,15 +785,15 @@ class CastVoteAPIView(APIView):
         try:
             voter = User_model.objects.get(LOGIN_ID__id=user_id)
         except User_model.DoesNotExist:
-            return Response({"error": "Voter not found!"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Voter not found!"}, status=status.HTTP_404_NOT_FOUND)
 
         # Check if the voter has already voted
         if voter.voter_status == True:
-            return Response({"message": "You have already voted"}, status=status.HTTP_201_CREATED)
+            return Response({"message": "You have already voted",'success':False}, status=status.HTTP_201_CREATED)
 
         # Validate candidate
         # candidate = user_code.candidate  # Candidate linked to unique code
-
+        candidate_id=Candidate_model.objects.get(id=candidate_id)
         # Record the vote
         vote = Vote.objects.create(voter=voter, candidate=candidate_id)
 
@@ -796,15 +802,15 @@ class CastVoteAPIView(APIView):
         voter.save()
 
         # Send confirmation email
-        if voter.mailid:
-            send_mail(
-                "Vote Confirmation",
-                "You have successfully cast your vote!",
-                "admin@example.com",  # Replace with actual sender email
-                [voter.mailid],
-            )
+        # if voter.mailid:
+        #     send_mail(
+        #         "Vote Confirmation",
+        #         "You have successfully cast your vote!",
+        #         "admin@example.com",  # Replace with actual sender email
+        #         [voter.mailid],
+        #     )
 
-        return Response({"message": "Vote cast successfully!"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Vote cast successfully!",'success':True}, status=status.HTTP_201_CREATED)
 
 from rest_framework.views import APIView
 from rest_framework.response import Response

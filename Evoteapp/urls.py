@@ -34,8 +34,8 @@ urlpatterns = [
     path('Verifycandidate/<int:id>',verifycandidate.as_view(),name='verifycandidate'),
     path('Rejectcandidate/<int:id>',rejectcandidate.as_view(),name='rejectcandidate'),
 
-    path('candidates/', CandidateAPIView.as_view(), name='candidates-list-create'),
-    path('candidates/<int:pk>/', CandidateAPIView.as_view(), name='candidate-detail-update'),
+    path('candidatesapi/', CandidateAPIView.as_view(), name='candidates-list-create'),
+    path('candidatesapi/<int:pk>/', CandidateAPIView.as_view(), name='candidate-detail-update'),
     path('feedback/', FeedbackAPIView.as_view(), name='feedback-list'),
     # path('feedback/<int:pk>/', FeedbackAPIView.as_view(), name='feedback-detail'),
     path('complaints/', ComplaintAPIView.as_view(), name='complaint-list'),
@@ -61,6 +61,7 @@ urlpatterns = [
     path('Result/',Result.as_view(),name='Result'),
     path("api/ward-results/", WardResultAPIView.as_view(), name="ward-results"),
     #/api/ward-results/?login_id=5
+    
 
 
     

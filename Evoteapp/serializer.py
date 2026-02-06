@@ -40,7 +40,7 @@ class voteserializer(ModelSerializer):
 class Candidateserializer(ModelSerializer):
     class Meta:
         model = Candidate_model
-        fields = ['fname','mname','lname','aadhaar','dob','gender','address','party','ward','city','state','country','pincode','mail','phone','voterid','logo','proof','photo']
+        fields = ['id','fname','mname','lname','aadhaar','dob','gender','address','party','ward','city','state','country','pincode','mail','phone','voterid','logo','proof','photo']
 
 class  Officerserializer(ModelSerializer):
     class Meta:
