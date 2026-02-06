@@ -553,54 +553,54 @@ class UserDetailAPIView(APIView):
 
 
 
-class CandidateCodeAPIView(APIView):
-    """
-    API view for Candidatecode_model to handle GET, POST, and PUT requests.
-    """
+# class CandidateCodeAPIView(APIView):
+#     """
+#     API view for Candidatecode_model to handle GET, POST, and PUT requests.
+#     """
 
-    def get(self, request, *args, **kwargs):
-        """Handles GET request to retrieve all candidate codes"""
-        codes = Candidatecode_model.objects.all()
-        serializer = CandidateCodeSerializer(codes, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#     def get(self, request, *args, **kwargs):
+#         """Handles GET request to retrieve all candidate codes"""
+#         codes = Candidatecode_model.objects.all()
+#         serializer = CandidateCodeSerializer(codes, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, *args, **kwargs):
-        """Handles POST request to create a new candidate code"""
-        serializer = CandidateCodeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request, *args, **kwargs):
+#         """Handles POST request to create a new candidate code"""
+#         serializer = CandidateCodeSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CandidateCodeDetailAPIView(APIView):
-    """
-    API view to handle retrieving and updating a specific candidate code.
-    """
+# class CandidateCodeDetailAPIView(APIView):
+#     """
+#     API view to handle retrieving and updating a specific candidate code.
+#     """
 
-    def get_object(self, pk):
-        try:
-            return Candidatecode_model.objects.get(pk=pk)
-        except Candidatecode_model.DoesNotExist:
-            return None
+#     def get_object(self, pk):
+#         try:
+#             return Candidatecode_model.objects.get(pk=pk)
+#         except Candidatecode_model.DoesNotExist:
+#             return None
 
-    def get(self, request, pk, *args, **kwargs):
-        """Handles GET request to retrieve a single candidate code by ID"""
-        code = self.get_object(pk)
-        if not code:
-            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = CandidateCodeSerializer(code)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#     def get(self, request, pk, *args, **kwargs):
+#         """Handles GET request to retrieve a single candidate code by ID"""
+#         code = self.get_object(pk)
+#         if not code:
+#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+#         serializer = CandidateCodeSerializer(code)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk, *args, **kwargs):
-        """Handles PUT request to update an existing candidate code"""
-        code = self.get_object(pk)
-        if not code:
-            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = CandidateCodeSerializer(code, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self, request, pk, *args, **kwargs):
+#         """Handles PUT request to update an existing candidate code"""
+#         code = self.get_object(pk)
+#         if not code:
+#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+#         serializer = CandidateCodeSerializer(code, data=request.data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class Verifyuser(View):
     def get(self,request,id):
         user=User_model.objects.get(id=id)
@@ -624,52 +624,56 @@ class rejectcandidate(View):
     
 import random
 from django.views import View
-from django.http import JsonResponse
-from .models import Candidate_model, User_model, UserCandidateCode, UserGroup, UserGroupMapping
-from django.shortcuts import render
-from .models import UserGroup
+# from django.http import JsonResponse
+# from .models import Candidate_model, User_model, UserCandidateCode, UserGroup, UserGroupMapping
+# from django.shortcuts import render
+# from .models import UserGroup
 
-def group_list_view(request):
-    groups = UserGroup.objects.all() 
-    print(groups) # Fetch all unique groups
-    return render(request, "Officer/group_list.html", {"groups": groups})
+# def group_list_view(request):
+#     groups = UserGroup.objects.all() 
+#     print(groups) # Fetch all unique groups
+#     return render(request, "Officer/group_list.html", {"groups": groups})
 
-class CreateUserGroupsView(View):
-    def get(self, request, *args, **kwargs):
-        users = list(User_model.objects.all())
-        random.shuffle(users)
+# class CreateUserGroupsView(View):
+#     def get(self, request, *args, **kwargs):
+#         users = list(User_model.objects.all())
+#         random.shuffle(users)
         
-        groups_created = []
-        for i in range(0, len(users), 10):
-            group = UserGroup.objects.create()
-            selected_users = users[i:i + 10]
-            for user in selected_users:
-                UserGroupMapping.objects.create(group=group, user=user)
-            groups_created.append(group.group_id)
-        return HttpResponse('''<script>alert('Groups generated');location.href='/officerdash'</script>''')
-        # return JsonResponse({"status": "Groups Created", "groups": groups_created})
-class ProcessGroupView(View):
-    def get(self, request, *args, **kwargs):
-        group = UserGroup.objects.first()  # Pick the first group available
-        if not group:
-            return JsonResponse({"status": "No groups available"})
+#         groups_created = []
+#         for i in range(0, len(users), 10):
+#             group = UserGroup.objects.create()
+#             selected_users = users[i:i + 10]
+#             for user in selected_users:
+#                 UserGroupMapping.objects.create(group=group, user=user)
+#             groups_created.append(group.group_id)
+#         return HttpResponse('''<script>alert('Groups generated');location.href='/officerdash'</script>''')
+#         # return JsonResponse({"status": "Groups Created", "groups": groups_created})
+# class ProcessGroupView(View):
+#     def get(self, request, *args, **kwargs):
+#         group = UserGroup.objects.first()  # Pick the first group available
+#         if not group:
+#             return JsonResponse({"status": "No groups available"})
 
-        users_in_group = UserGroupMapping.objects.filter(group=group).values_list('user', flat=True)
-        candidates = Candidate_model.objects.filter(ward__in=User_model.objects.filter(id__in=users_in_group).values_list('ward', flat=True))
+#         users_in_group = UserGroupMapping.objects.filter(group=group).values_list('user', flat=True)
+#         candidates = Candidate_model.objects.filter(ward__in=User_model.objects.filter(id__in=users_in_group).values_list('ward', flat=True))
         
-        return JsonResponse({
-            "status": "Candidates Retrieved",
-            "group_id": str(group.group_id),
-            "candidates": list(candidates.values("fname", "aadhaar", "dob", "phone"))
-        })
+#         return JsonResponse({
+#             "status": "Candidates Retrieved",
+#             "group_id": str(group.group_id),
+#             "candidates": list(candidates.values("fname", "aadhaar", "dob", "phone"))
+#         })
 
-class getcodes(APIView):
-    def get(self,request,id):
-        usercodes=UserCandidateCode.objects.filter(user__LOGIN_ID__id=id).all()
-        ser=UserCandidateCodeserializer(usercodes,many=True)
-        return Response(ser.data)
+# class getcodes(APIView):
+#     def get(self,request,id):
+#         usercodes=UserCandidateCode.objects.filter(user__LOGIN_ID__id=id).all()
+#         ser=UserCandidateCodeserializer(usercodes,many=True)
+#         return Response(ser.data)
 
-
+# class getcodes(APIView):
+#     def get(self,request,id):
+#         usercodes=UserCandidateCode.objects.filter(user__LOGIN_ID__id=id).all()
+#         ser=UserCandidateCodeserializer(usercodes,many=True)
+#         return Response(ser.data)
 import string
 import random
 
@@ -678,63 +682,65 @@ import string
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views import View
-from Evoteapp.models import UserGroup, UserGroupMapping, User_model, Candidate_model, UserCandidateCode
+# from Evoteapp.models import UserGroup, UserGroupMapping, User_model, Candidate_model, UserCandidateCode
 
-class GenerateAndSendCodesView(View):
-    def get(self, request,group_id, *args, **kwargs):
-        print("dddddddddd")
-        print(f"Generating codes for Group ID: {group_id}")
+# class GenerateAndSendCodesView(View):
+#     def get(self, request,group_id, *args, **kwargs):
+#         print("dddddddddd")
+#         print(f"Generating codes for Group ID: {group_id}")
 
-        group = UserGroup.objects.filter(id=group_id).first()  # Pick first available group
-        if not group:
-            return JsonResponse({"status": "No groups available"})
+#         group = UserGroup.objects.filter(id=group_id).first()  # Pick first available group
+#         if not group:
+#             return JsonResponse({"status": "No groups available"})
 
-        # Get all users in the group with their ward and email
-        users_in_group = UserGroupMapping.objects.filter(group=group).values_list('user', flat=True)
-        users = User_model.objects.filter(id__in=users_in_group).values('id', 'ward', 'mailid')
+#         # Get all users in the group with their ward and email
+#         users_in_group = UserGroupMapping.objects.filter(group=group).values_list('user', flat=True)
+#         users = User_model.objects.filter(id__in=users_in_group).values('id', 'ward', 'mailid')
 
-        # Create a ward-to-users mapping
-        ward_users_map = {}
-        email_data = {}
+#         # Create a ward-to-users mapping
+#         ward_users_map = {}
+#         email_data = {}
 
-        for user in users:
-            ward_users_map.setdefault(user['ward'], []).append(user)
+#         for user in users:
+#             ward_users_map.setdefault(user['ward'], []).append(user)
 
-        # Get all candidates in the wards of selected users
-        candidates = Candidate_model.objects.filter(ward__in=ward_users_map.keys())
-        print(candidates)
+#         # Get all candidates in the wards of selected users
+#         candidates = Candidate_model.objects.filter(ward__in=ward_users_map.keys())
+#         print(candidates)
 
-        for candidate in candidates:
-            print(candidate)
-            users_in_ward = ward_users_map.get(candidate.ward_id, [])
-            print(users_in_ward)
+#         for candidate in candidates:
+#             print(candidate)
+#             users_in_ward = ward_users_map.get(candidate.ward_id, [])
+#             print(users_in_ward)
 
-            for user in users_in_ward:
-                print(user)
-                unique_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-                UserCandidateCode.objects.create(user_id=user['id'], candidate=candidate, unique_code=unique_code)
+#             for user in users_in_ward:
+#                 print(user)
+#                 unique_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+#                 UserCandidateCode.objects.create(user_id=user['id'], candidate=candidate, unique_code=unique_code)
 
-                if user['mailid']:  # Ensure user has an email
-                    email_data.setdefault(user['mailid'], []).append(f"{candidate.fname}({candidate.party}): {unique_code}")
+#                 if user['mailid']:  # Ensure user has an email
+#                     email_data.setdefault(user['mailid'], []).append(f"{candidate.fname}({candidate.party}): {unique_code}")
 
-        # **Send Emails**
-        for email, codes in email_data.items():
-            send_mail(
-                subject="Your Candidate Codes",
-                message="\n".join(codes),
-                from_email="admin@example.com",
-                recipient_list=[email],
-            )
-        return HttpResponse('''<script>alert('Codes Generated and sent');location.href='/officerdash'</script>''')
-        # return JsonResponse({"status": "Codes Generated & Sent"})
+#         # **Send Emails**
+#         for email, codes in email_data.items():
+#             send_mail(
+#                 subject="Your Candidate Codes",
+#                 message="\n".join(codes),
+#                 from_email="admin@example.com",
+#                 recipient_list=[email],
+#             )
+#         return HttpResponse('''<script>alert('Codes Generated and sent');location.href='/officerdash'</script>''')
+#         # return JsonResponse({"status": "Codes Generated & Sent"})
 from django.utils.timezone import now, localtime
 class CastVoteAPIView(APIView):
     def post(self, request, *args, **kwargs):
         print(request.data)
         user_id = request.data.get("user_id")
-        unique_code = request.data.get("unique_code")
+        # unique_code = request.data.get("unique_code")
+        candidate_id = request.data.get("unique_code")
+ 
 
-        if not user_id or not unique_code:
+        if not user_id or not candidate_id:
             return Response({"error": "Missing user ID or unique code."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             voting_time = Votingtime.objects.first()  # Assuming only one election at a time
@@ -762,12 +768,12 @@ class CastVoteAPIView(APIView):
         except Votingtime.DoesNotExist:
             return Response({"error": "Election timing not found"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        # Validate unique code
-        try:
-            user_code = UserCandidateCode.objects.get(user__LOGIN_ID__id=user_id, unique_code=unique_code)
-            print(user_code)
-        except UserCandidateCode.DoesNotExist:
-            return Response({"error": "Invalid unique code or user."}, status=status.HTTP_400_BAD_REQUEST)
+        # # Validate unique code
+        # try:
+        #     user_code = UserCandidateCode.objects.get(user__LOGIN_ID__id=user_id, unique_code=unique_code)
+        #     print(user_code)
+        # except UserCandidateCode.DoesNotExist:
+        #     return Response({"error": "Invalid unique code or user."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Validate voter
         try:
@@ -780,10 +786,10 @@ class CastVoteAPIView(APIView):
             return Response({"message": "You have already voted"}, status=status.HTTP_201_CREATED)
 
         # Validate candidate
-        candidate = user_code.candidate  # Candidate linked to unique code
+        # candidate = user_code.candidate  # Candidate linked to unique code
 
         # Record the vote
-        vote = Vote.objects.create(voter=voter, candidate=candidate)
+        vote = Vote.objects.create(voter=voter, candidate=candidate_id)
 
         # Mark voter as having voted
         voter.voter_status = True

@@ -62,23 +62,23 @@ class Candidate_model(models.Model):
     ward =models.ForeignKey(Ward,on_delete=models.CASCADE,null=True,blank=True)
     status=models.CharField(max_length=100,null=True,blank=True)
 
-class Candidatecode_model(models.Model):
-    code = models.CharField(max_length=100, null=True, blank=True)
-    candidate = models.ForeignKey(Candidate_model, on_delete=models.CASCADE, null=True, blank=True)
-    voter = models.ForeignKey(User_model, on_delete=models.CASCADE, null=True, blank=True)
-    ward =models.ForeignKey(Ward,on_delete=models.CASCADE,null=True,blank=True)
+# class Candidatecode_model(models.Model):
+#     code = models.CharField(max_length=100, null=True, blank=True)
+#     candidate = models.ForeignKey(Candidate_model, on_delete=models.CASCADE, null=True, blank=True)
+#     voter = models.ForeignKey(User_model, on_delete=models.CASCADE, null=True, blank=True)
+#     ward =models.ForeignKey(Ward,on_delete=models.CASCADE,null=True,blank=True)
 
-class UserGroup(models.Model):
-    group_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+# class UserGroup(models.Model):
+#     group_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
-class UserGroupMapping(models.Model):
-    group = models.ForeignKey(UserGroup, on_delete=models.CASCADE)
-    user = models.ForeignKey(User_model, on_delete=models.CASCADE)
+# class UserGroupMapping(models.Model):
+#     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User_model, on_delete=models.CASCADE)
 
-class UserCandidateCode(models.Model):
-    user = models.ForeignKey(User_model, on_delete=models.CASCADE)
-    candidate = models.ForeignKey(Candidate_model, on_delete=models.CASCADE)
-    unique_code = models.CharField(max_length=10, unique=True)
+# class UserCandidateCode(models.Model):
+#     user = models.ForeignKey(User_model, on_delete=models.CASCADE)
+#     candidate = models.ForeignKey(Candidate_model, on_delete=models.CASCADE)
+#     unique_code = models.CharField(max_length=10, unique=True)
 class Feedback_model(models.Model):
     feedback = models.CharField(max_length=100, null=True, blank=True)
     user = models.ForeignKey(User_model,on_delete=models.CASCADE, null=True, blank=True)
@@ -114,7 +114,7 @@ class Votingtime(models.Model):
     end_time = models.TimeField(null=True, blank=True)
   
 
-import hashlib
+# import hashlib
 
 
 class Vote(models.Model):
@@ -122,24 +122,24 @@ class Vote(models.Model):
     voter = models.OneToOneField(User_model, on_delete=models.CASCADE)  # Prevent multiple votes
     candidate = models.ForeignKey(Candidate_model, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    previous_hash = models.CharField(max_length=64, blank=True, null=True)  # Link to previous vote
-    vote_hash = models.CharField(max_length=64, blank=True, editable=False)  # Current vote's hash
+    # previous_hash = models.CharField(max_length=64, blank=True, null=True)  # Link to previous vote
+    # vote_hash = models.CharField(max_length=64, blank=True, editable=False)  # Current vote's hash
 
-    def save(self, *args, **kwargs):
-        # Generate vote ID
-        if not self.vote_id:
-            self.vote_id = get_random_string(length=16)
+#     def save(self, *args, **kwargs):
+#         # Generate vote ID
+#         if not self.vote_id:
+#             self.vote_id = get_random_string(length=16)
         
-        # Generate hash of the current vote
-        vote_data = f"{self.vote_id}{self.voter.id}{self.candidate.id}{self.timestamp}"
-        self.vote_hash = hashlib.sha256(vote_data.encode()).hexdigest()
+#         # Generate hash of the current vote
+#         vote_data = f"{self.vote_id}{self.voter.id}{self.candidate.id}{self.timestamp}"
+#         self.vote_hash = hashlib.sha256(vote_data.encode()).hexdigest()
 
-        # Assign the previous hash
-        if not self.previous_hash:
-            last_vote = Vote.objects.order_by('-timestamp').first()
-            self.previous_hash = last_vote.vote_hash if last_vote else None
+#         # Assign the previous hash
+#         if not self.previous_hash:
+#             last_vote = Vote.objects.order_by('-timestamp').first()
+#             self.previous_hash = last_vote.vote_hash if last_vote else None
 
-        super().save(*args, **kwargs)
+#         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Vote by {self.voter.name} for {self.candidate.fname}"
