@@ -297,10 +297,10 @@
                     <h2>Generate codes</h2>
                     <button class="add-user">Add User</button> -->
                 </header>
-                <div class="user-table">
+                {% comment %} <div class="user-table">
                     <a href="/create-groups/"><button>Generate groups</button></a>
 
-                </div>
+                </div> {% endcomment %}
             </section>
             <section id="view-groups" style="display: none;">
 
@@ -319,38 +319,38 @@
         </main>
     </div>
     <script>
-        function generateCodes(groupId) {
-            fetch(`generate-codes/${groupId}/`)
-                .then(response => response.json())
-                .then(data => alert(data.status))
-                .catch(error => console.error("Error:", error));
-        }
-        function loadGroups() {
-    fetch("/groups/") // Ensure this matches your Django URL path
-        .then(response => response.text()) // Get HTML response
-        .then(html => {
-            document.getElementById("show-groups").innerHTML = html;
-            document.getElementById("show-groups").style.display = "block";
-        })
-        .catch(error => console.error("Error loading groups:", error));
-}
+        document.addEventListener("DOMContentLoaded", function () {
+            showSection('dashboard');
+        });
+        
         function showSection(sectionId) {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('manage-candidates').style.display = 'none';
-            // document.getElementById('insert-candidate').style.display = 'none';
-            document.getElementById('insert-cd').style.display = 'none';
-            document.getElementById('case-files').style.display = 'none';
-            document.getElementById('show-groups').style.display = 'none';
-            // document.getElementById('view-groups').style.display = 'none';
-
-            document.getElementById(sectionId).style.display = 'block';
-            
+        
+            let sections = [
+                'dashboard',
+                'manage-candidates',
+                'insert-cd',
+                'case-files'
+            ];
+        
+            sections.forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.style.display = "none";
+            });
+        
+            let target = document.getElementById(sectionId);
+            if (target) target.style.display = "block";
+        
             let items = document.querySelectorAll(".sidebar ul li");
             items.forEach(item => item.classList.remove("active"));
-
-            document.querySelector(".sidebar ul li[onclick='showSection(\'" + sectionId + "\')']").classList.add("active");
+        
+            let activeItem = document.querySelector(
+                `.sidebar ul li[onclick="showSection('${sectionId}')"]`
+            );
+        
+            if (activeItem) activeItem.classList.add("active");
         }
-    </script>
+        </script>
+        
 </body>
 
 </html>
